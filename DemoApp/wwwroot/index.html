@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en"  ng-app="myApp"  >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+
+    <link href="css/common.css" rel="stylesheet" />
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!--library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!-- Api -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.26/angular-ui-router.min.js"></script>
+
+    <!-- Bootstrap 5 JS and Popper.js (required for Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Angular UI Bootstrap -->
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.2.4.js"></script>
+
+
+    <!-- Angular Toaster Notification UI Bootstrap -->
+    <!-- ng-notify CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ng-notify/dist/ng-notify.min.css">
+
+    <!-- ng-notify JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/ng-notify/dist/ng-notify.min.js"></script>
+
+
+    <!-- signalr -->
+    <script src="lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>-->
+
+    <!-- AngularJS Start App -->
+    <script src="/js/app/app.js"></script>
+    
+    <!-- AngularJS Route -->
+
+    <script src="/js/app/app.route.config.js"></script>
+
+    <!-- AngularJS Controller -->
+
+    <script src="/js/app/user/RegisterController.js"></script>
+
+    <script src="/js/app/user/LoginController.js"></script>
+
+    <script src="/js/app/user/HomeController.js"></script>
+
+    <script src="/js/app/user/EditController.js"></script>
+
+    <script src="/js/app/user/Dashboard.js"></script>
+
+    <script src="/js/app/user/AboutController.js"></script>
+
+    <script src="/js/app/user/NotesController.js"></script>
+
+    <script src="/js/app/user/NavController.js"></script>
+
+    <script src="js/app/user/AddController.js"></script>
+
+    <script src="js/app/user/DeleteController.js"></script>
+
+    <script src="js/app/user/DashBoardControllers.js"></script>
+
+</head>
+<body>
+
+    <div class="container-fluid">
+
+        <!--<div ng-controller="myController">
+            <h1> AG JS Application Based On JWT Token And Role Base Authorization</h1>-->
+
+            <!-- Bootstrap Alert -->
+            <!--<div class="alert alert-success" role="alert">
+                This is a Bootstrap alert.
+            </div>-->
+
+            <!-- AngularJS Binding -->
+            <!--<p>{{ message }}</p>
+
+
+
+        </div>-->
+
+        <header ng-include="'/html/nav.html'"></header>
+
+        <div ui-view></div>
+
+        <footer ng-include="'/html/footer.html'"></footer>
+    
+
+    </div>
+</body>
+</html>

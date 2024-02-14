@@ -1,0 +1,19 @@
+﻿<div style="padding: 1vh;">
+
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Note</h4>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" class="form-control" ng-model="note.id" placeholder="Enter topic">
+            <input type="text" class="form-control" ng-model="note.topic" placeholder="Enter topic">
+            <textarea class="form-control" ng-model="note.description" placeholder="Enter description"></textarea>
+
+            <!-- Edit form or any other content goes here -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" ng-click="ok(note)">Ok</button>
+            <button type="button" class="btn btn-secondary" ng-click="cancel()">Cancel</button>
+
+        </div>
+
+</div>

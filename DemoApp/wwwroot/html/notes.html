@@ -1,0 +1,21 @@
+﻿
+<div  ng-controller="NotesController" style="background-image: linear-gradient(to bottom, gainsboro, cadetblue); background-size: cover; ">
+
+
+    <div class="d-flex justify-content-between mb-3" style="padding:2em">
+        <a href="#" class="btn btn-primary" data-mdb-ripple-init ng-click="getNotes()">Get Notes</a>
+
+        <a href="#" class="btn btn-primary" ng-if="isInsert"  ng-click="openAddNoteModel()" data-mdb-ripple-init>Insert</a>
+    </div>
+    <div class="card w-70" ng-repeat="note in notes" style="background-color: transparent; border: none; padding-left: 15vw; padding-right: 15vw; ">
+        <div class="card-body" id="{{note.id}}">
+            <h5 class="card-title">{{note.topic}}</h5>
+            <p class="card-text">{{note.description}}</p>
+            <a href="#" class="btn btn-warning"  ng-if="isEdit" ng-click="openEditModal(note)" data-mdb-ripple-init>Edit</a>
+            <a href="#" class="btn btn-danger"   ng-if="isDelete" ng-click="openDeleteNoteModel(note)" data-mdb-ripple-init>Delete</a>
+        </div>
+    </div>
+
+
+
+</div>

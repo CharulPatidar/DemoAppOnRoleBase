@@ -1,0 +1,58 @@
+﻿
+/* CSS Reset */
+html, body {
+    margin: -10px;
+    margin-left: -21px;
+    margin-right: -21px
+}
+
+body {
+    overflow-y: scroll; /* Always show vertical scrollbar */
+}
+
+    /* Hide scrollbars */
+body::-webkit-scrollbar {
+    width: 0; /* Hide the scrollbar */
+}
+
+
+a {
+    cursor : pointer ;
+}
+
+.carousel-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black; /* Set the color of the text */
+    font-size: 5vw; /* Adjust the font size as needed */
+}
+
+.custom-hight{
+
+height:100vh;
+
+}
+
+.modal-open .modal {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    top: 50vh !important;
+}
+
+.fade:not(.show) {
+    opacity: 1 !important; /* Override opacity to 1 */
+}
+
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1111 !important;
+}
+

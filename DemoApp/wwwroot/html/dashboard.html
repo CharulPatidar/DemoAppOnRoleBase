@@ -1,0 +1,287 @@
+﻿<div  style="background-image: linear-gradient(to bottom, gainsboro, cadetblue); background-size: cover; ">
+    <div>
+        <br /><br /><br /><br />
+        <h2>All User</h2>
+
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                All User
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="user in users">
+                    <a class="dropdown-item" ng-click="selectUser(user)" href="#">{{user.userName}}</a>
+                </li>
+
+            </ul>
+        </div>
+
+        <table class="table table-secondary table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">User Email</th>
+                    <th scope="col" ng-show="selectedUser.id">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{selectedUser.id}}</td>
+                    <td>{{selectedUser.userName}}</td>
+                    <td>{{selectedUser.userEmail}}</td>
+                    <td ng-show="selectedUser.id"><button  ng-click="DeleteUser(selectedUser)" class="btn-danger" >Delete</button></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <br /><br /><br /><br />
+        <h2>All Roles</h2>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                All Role
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="role in roles">
+                    <a class="dropdown-item" ng-click="selectRole(role)" href="#">{{role.roleName}}</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" ng-click="openAddRoleModel()" href="#"> + Add Role</a>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-secondary  table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Role Name</th>
+                    <th scope="col" ng-show="selectedRole.id">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{selectedRole.id}}</td>
+                    <td>{{selectedRole.roleName}}</td>
+                    <td ng-show="selectedRole.id"><button ng-click="DeleteRole(selectedRole)" class="btn-danger">Delete</button></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <br /><br /><br /><br />
+        <h2>All Permission</h2>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                All Permission
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="permission in permissions">
+                    <a class="dropdown-item" ng-click="selectPermission (permission)">{{permission.permissionName}}</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" ng-click="openAddPermissionModel()"> + Add Permission</a>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-secondary  table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Role Name</th>
+                    <th scope="col" ng-show="selectedPermission.id">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{selectedPermission .id}}</td>
+                    <td>{{selectedPermission .permissionName}}</td>
+                    <td ng-show="selectedPermission.id"><button ng-click="DeletePermission(selectedPermission)" class="btn-danger">Delete</button></td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <br /><br /><br /><br />
+
+    <div class="row">
+        <h2>Allocate Role TO User</h2>
+        <div class="dropdown col-md-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ AllocatedRU.RoleId !='' ? AllocatedRU.RoleName : 'Select Role'}}
+
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="role in roles">
+                    <a class="dropdown-item" ng-click="AllocatedRU.RoleName = role.roleName ; AllocatedRU.RoleId = role.id " href="#">{{role.roleName}}</a>
+                </li>
+            </ul>
+            </ul>
+        </div>
+        <div class="dropdown col-md-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ AllocatedRU.UserId !='' ? AllocatedRU.UserName : 'Select User'}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="user in users">
+                    <a class="dropdown-item" ng-click="AllocatedRU.UserName = user.userName ; AllocatedRU.UserId = user.id " href="#">{{user.userName}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown col-md-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkboxId" ng-model="isCheckedRU">
+                <label class="form-check-label" for="checkboxId">
+                    Check me
+                </label>
+            </div>
+        </div>
+        <div class=" col-md-2">
+            <button class="btn btn-secondary" ng-show="isCheckedRU" ng-click="AllocateRoleToUser()">Allocate Role {{AllocatedRU.RoleName}} to {{AllocatedRU.UserName}}</button>
+        </div>
+    </div>
+    <hr />
+
+
+
+
+    <br /><br /><br /><br />
+
+    <div class="row">
+        <h2>Allocate Permission TO Role</h2>
+        <div class="dropdown col-md-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ AllocatedPR.PermissionId !='' ? AllocatedPR.PermissionName : 'Select Permission'}}
+
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="permission in permissions">
+                    <a class="dropdown-item" ng-click="AllocatedPR.PermissionName = permission.permissionName ; AllocatedPR.PermissionId = permission.id " href="#">{{permission.permissionName}}</a>
+                </li>
+            </ul>
+            </ul>
+        </div>
+        <div class="dropdown col-md-2">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ AllocatedPR.RoleId !='' ? AllocatedPR.RoleName : 'Select Role'}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="role in roles">
+                    <a class="dropdown-item" ng-click="AllocatedPR.RoleName = role.roleName ; AllocatedPR.RoleId = role.id " href="#">{{role.roleName}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown col-md-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="checkboxId" ng-model="isCheckedPR">
+                <label class="form-check-label" for="checkboxId">
+                    Check me
+                </label>
+            </div>
+        </div>
+        <div class=" col-md-2">
+            <button class="btn btn-secondary" ng-show="isCheckedPR" ng-click="AllocatePermissionToRole()">Allocate Role {{AllocatedPR.PermissionName}} to {{AllocatedPR.RoleName}}</button>
+        </div>
+    </div>
+    <hr />
+    <br /><br /><br /><br />
+
+
+
+
+    <div>
+        <h2>Get All User By Role</h2>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{getRoleForUser.roleName !='' ? getRoleForUser.roleName : 'Roles'}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="role in roles">
+                    <a class="dropdown-item" ng-click="GetAllUserByRoleId(role)" href="#">{{role.roleName}}</a>
+                </li>
+            </ul>
+        </div>
+
+
+       <div class="table-responsive">
+            <table class="table">
+                <tbody>
+                    <tr ng-repeat="u in AllUsersByRole">
+                        <td><h5>{{u.userName}} {{u.userId}}</h5></td>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="checkbox{{$index}}" ng-model="u.checked" ng-init="u.checked = false">
+                                <label class="form-check-label" for="checkbox{{$index}}">
+                                    Confirm To Deallocate
+                                </label>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-secondary" ng-click="DeAllocateRoleToUser(u.userId)" ng-disabled="!u.checked">DeAllocate {{u.userName}} from {{getRoleForUser.roleName}}</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+    </div></hr>
+
+
+
+
+    <br /><br /><br /><br />
+    <div>
+        <h2>Get All Permission By Role</h2>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{getRoleForPermission.roleName != '' ? getRoleForPermission.roleName : 'Roles'}}
+
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li ng-repeat="role in roles">
+                    <a class="dropdown-item" ng-click="GetAllPermissionByRoleId(role)" href="#">{{role.roleName}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="table-responsive">
+        <table class="table">
+            <tbody>
+                <tr ng-repeat="p in AllPermissionByRole">
+                    <td><h5>{{p.permissionName}} {{p.permissionId}}</h5></td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="checkbox{{$index}}" ng-model="p.checked" ng-init="p.checked = false">
+                            <label class="form-check-label" for="checkbox{{$index}}">
+                                Confirm To Deallocate
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-secondary" ng-click="DeAllocatePermissionFromRole(p)" ng-disabled="!p.checked" >DeAllocate {{p.permissionName}} from {{getRoleForPermission.roleName}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    </div></hr>
+</div>
+

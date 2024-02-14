@@ -1,0 +1,41 @@
+﻿
+<div ng-controller="NavController">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" ui-sref="home">Notes Application</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" ui-sref="home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" ui-sref="notes">Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" ui-sref="about">About</a>
+                    </li>
+                    <li class="nav-item" ng-if="isAdmin">
+                        <a class="nav-link active" ui-sref="dashboard" >DashBoard</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav me-rigth mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" ng-if="userName" >{{userName}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" ng-if="!isLogin" ui-sref="login">LogIn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" ng-if="isLogin" ng-click="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</div>
