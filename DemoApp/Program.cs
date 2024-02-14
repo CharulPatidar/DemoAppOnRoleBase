@@ -69,10 +69,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 
-// Enable CORS middleware
-app.UseCors("AllowAll");
-
-
 // Add this in the Configure method
 //app.UseAuthentication();
 //app.UseAuthorization();
@@ -96,6 +92,12 @@ app.UseHttpsRedirection();
 app.UseFileServer();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseRouting();
+
+// Enable CORS middleware
+//app.UseCors("AllowAll");
+
 
 
 app.UseAuthentication();
