@@ -97,7 +97,7 @@ namespace DemoApp.Controllers
                     _context.UserNotes.Add(userNotes);
                     _context.SaveChanges();
 
-                    await _notesHub.Clients.All.SendAsync("ReceiveMsg", "HIIIIIII");
+                    await _notesHub.Clients.All.SendAsync("ReceiveMsg", "Please Click on GetNotes");
 
                     return Ok($"Note {newNotes.Topic} Created By User {user.UserName} ");
 

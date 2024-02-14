@@ -97,24 +97,24 @@ myApp.service('UserService', function ($rootScope) {
     };
 });
 
-//myApp.factory('signalRService', function () {
-//    const connection = new signalR.HubConnectionBuilder().withUrl("/NotesHub").build();
+myApp.factory('signalRService', function () {
+    const connection = new signalR.HubConnectionBuilder().withUrl("/NotesHub").build();
 
-//    connection.start().then(() => {
-//        console.log("SignalR connection established");
-//    }).catch(err => console.error(err));
+    connection.start().then(() => {
+        console.log("SignalR connection established");
+    }).catch(err => console.error(err));
 
-//    // Return the connection object and the onReceiveMsg method
-//    return {
-//        connection: connection,
-//        onReceiveMsg: function (callback) {
-//            // Ensure that connection object is defined before trying to subscribe to events
-//            if (connection) {
-//                connection.on("ReceiveMsg", callback);
-//            } else {
-//                console.error("SignalR connection is not initialized.");
-//            }
-//        }
-//    };
-//});
+    // Return the connection object and the onReceiveMsg method
+    return {
+        connection: connection,
+        onReceiveMsg: function (callback) {
+            // Ensure that connection object is defined before trying to subscribe to events
+            if (connection) {
+                connection.on("ReceiveMsg", callback);
+            } else {
+                console.error("SignalR connection is not initialized.");
+            }
+        }
+    };
+});
 

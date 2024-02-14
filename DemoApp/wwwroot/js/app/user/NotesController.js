@@ -4,7 +4,7 @@ var myApp = angular.module('myApp');
 
 
 
-myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, $stateParams, $window, BASE_URL, $location, UserService) {
+myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, $stateParams, $window, BASE_URL, $location, UserService, signalRService) {
     
     $scope.notes = null;
     $scope.isInsert = false
@@ -26,16 +26,7 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
 
 
 
-
-
-    //signalRService.connection.on("ReceiveMsg", function (msg) {
-
-
-    //    console.log(msg);
-    //    alert(msg);
-
-    //})
-
+  
 
     // Fetch notes using an IIFE
     (function getNotes() {
@@ -64,7 +55,7 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
                 console.log("GetNotes successful:", $scope.notes);
 
                 var notesData = $scope.notes
-                openNewTab(notesData);
+               // openNewTab(notesData);
             })
             .catch(function (error) {
                 console.error("GetNotes failed:", error);
@@ -72,7 +63,10 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
 
     };
 
- 
+    signalRService.connection.on("ReceiveMsg", function (msg) {
+        console.log(msg);
+        alert(msg);
+    });
 
     // Function to open new tab with notes data
     function openNewTab(notesData) {
