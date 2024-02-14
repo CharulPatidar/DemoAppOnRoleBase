@@ -2,6 +2,7 @@
 using DemoApp.Models;
 using DemoApp.utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -12,6 +13,8 @@ using System.Text;
 
 namespace DemoApp.Controllers
 {
+    //[EnableCors("AllowAll")] // Enable CORS for this controller
+
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

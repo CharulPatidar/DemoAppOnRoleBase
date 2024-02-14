@@ -53,8 +53,24 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSignalR();        // ->>>>>>>>>>  Assing Signalr AS Service
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+});
+
 
 var app = builder.Build();
+
+
+// Enable CORS middleware
+app.UseCors("AllowAll");
 
 
 // Add this in the Configure method

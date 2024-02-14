@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using DemoApp.Models;
 using Microsoft.AspNetCore.SignalR;
 using DemoApp.Hubs;
+using Microsoft.AspNetCore.Cors;
 
 namespace DemoApp.Controllers
 {
-  
+
+    //[EnableCors("AllowAll")] // Enable CORS for this /*controller*/
+
     public class BaseController : ControllerBase
     {
 

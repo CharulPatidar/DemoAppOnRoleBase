@@ -1,4 +1,6 @@
-﻿var myApp = angular.module('myApp');
+﻿
+
+var myApp = angular.module('myApp');
 
 
 
@@ -21,6 +23,19 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
         alert("Notes--> " + notesValue);
 
     }
+
+
+
+
+
+    //signalRService.connection.on("ReceiveMsg", function (msg) {
+
+
+    //    console.log(msg);
+    //    alert(msg);
+
+    //})
+
 
     // Fetch notes using an IIFE
     (function getNotes() {
