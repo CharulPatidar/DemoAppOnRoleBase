@@ -100,7 +100,7 @@ myApp.service('UserService', function ($rootScope) {
 
 
 
-//var connection = new signalR.HubConnectionBuilder().withUrl("/NotesHub").build();
+//var connection = new signalR.HubConnectionBuilder().withUrl("/NotesHub").build(); //
 
 
 //connection.start();
