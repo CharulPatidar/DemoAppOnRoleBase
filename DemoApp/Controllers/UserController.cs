@@ -30,7 +30,7 @@ namespace DemoApp.Controllers
 
         [HttpGet]
         [Route("GetAllUsers")]
-        
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllUsers()
         {
             try

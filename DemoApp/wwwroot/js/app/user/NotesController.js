@@ -4,7 +4,7 @@ var myApp = angular.module('myApp');
 
 
 
-myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, $stateParams, $window, BASE_URL, $location, UserService, signalRService) {
+myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, $stateParams, $window, BASE_URL, $location, UserService, signalRService, ngNotify) {
     
     $scope.notes = null;
     $scope.isInsert = false
@@ -63,9 +63,15 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
 
     };
 
-    signalRService.connection.on("ReceiveMsg", function (msg) {
-        console.log(msg);
-        alert(msg);
+    signalRService.connection.on("ReceiveMsg", function (n) {
+
+        var noteObject = JSON.parse(n);
+        console.log("Received Note: " + n);
+
+        $scope.getNotes();
+        ngNotify.set(' New Note Added' + noteObject.topic, {
+            type: 'success'
+        });
     });
 
     // Function to open new tab with notes data
@@ -109,7 +115,12 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
             if (index !== -1) {
                 // Update the note in the array with the edited note
                 $scope.notes[index] = result;
+                ngNotify.set('Note Edited' + note.topic, {
+                    type: 'info'
+                });
             }
+
+          
 
 
         })
@@ -133,7 +144,9 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
             console.log("modalInstance Result -- > ", result);
 
             $scope.notes.push(result);
-
+            ngNotify.set('Note Added' + note.topic, {
+                type: 'info'
+            });
            
         })
         .catch(function (error) {
@@ -165,6 +178,9 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
             var index = $scope.notes.indexOf(result);
             if (index !== -1) {
                 $scope.notes.splice(index, 1);
+                ngNotify.set('Note Deleted' + note.topic, {
+                    type: 'error'
+                });
             }
 
         })

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace DemoApp.Controllers
 {
@@ -97,7 +99,19 @@ namespace DemoApp.Controllers
                     _context.UserNotes.Add(userNotes);
                     _context.SaveChanges();
 
-                    await _notesHub.Clients.All.SendAsync("ReceiveMsg", "Please Click on GetNotes");
+
+                    var noteData = new
+                    {
+                        id = newNotes.Id.ToString(),
+                        topic = newNotes.Topic,
+                        description = newNotes.Description,
+                        userNotes = (object)null // or set it to null if needed
+                    };
+
+
+
+                    string jsonString = JsonSerializer.Serialize(noteData);
+                    await _notesHub.Clients.All.SendAsync("ReceiveMsg", jsonString);
 
                     return Ok($"Note {newNotes.Topic} Created By User {user.UserName} ");
 

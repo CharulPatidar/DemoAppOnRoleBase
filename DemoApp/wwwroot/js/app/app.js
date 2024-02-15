@@ -3,6 +3,9 @@
 var myApp = angular.module('myApp', ['ui.router', 'ui.bootstrap', 'ngNotify' ]);
 
 
+
+
+
 // Define AngularJS controller
 myApp.controller('myController', function ($scope ,$state) {
     // Message for AngularJS binding
@@ -10,6 +13,8 @@ myApp.controller('myController', function ($scope ,$state) {
     $state.go('home');
 
     $scope.message = 'This is an AngularJS message.';
+
+
 });
 
 
