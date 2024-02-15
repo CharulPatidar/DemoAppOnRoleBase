@@ -49,7 +49,6 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
 
 
         $http.get(BASE_URL + 'User/GetAllNotes')
-        $http.get(BASE_URL + 'User/GetAllNotes')
             .then(function (response) {
                 $scope.notes = response.data.$values;
                 console.log("GetNotes successful:", $scope.notes);

@@ -25,7 +25,7 @@ myApp.constant('BASE_URL', 'https://localhost:7128/api/'); // Define the base UR
 
 
 
-myApp.factory('AuthInterceptor', function ($rootScope, $state) {
+myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
     var authInterceptor = {};
     authInterceptor.request = function (config) {
         var token = localStorage.getItem('token');
@@ -68,10 +68,7 @@ myApp.factory('AuthService', function ($rootScope, AuthInterceptor) {
         $rootScope.$broadcast('logoutEvent');
 
 
-        // we can catch it by .... in any controller
-        //$scope.$on('logoutEvent', function () {
-        //    // Your code to handle the logout event
-        //});
+        
 
        
     };

@@ -39,6 +39,8 @@ myApp.controller('LoginController', function ($scope, $http, $state, $window, BA
 
 
     }
+
+    setUserData(); 
    
     $scope.login = function () {
         var user = $scope.user;
