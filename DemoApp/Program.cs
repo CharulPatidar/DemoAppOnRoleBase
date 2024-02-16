@@ -3,6 +3,8 @@ using DemoApp.DependencyInjection;
 using DemoApp.Hubs;
 using DemoApp.Middleware;
 using DemoApp.Models;
+using DemoApp.Services;
+using DemoApp.ServicesImplement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 });
 
+
+builder.Services.AddScoped<IUsersService, UserServicesImplement>();
+builder.Services.AddScoped<IRolesService, RoleServicesImplement>();
+builder.Services.AddScoped<IPermissionsService, PermissionServicesImplement>();
+builder.Services.AddScoped<INotesService, NoteServicesImplement>();
 
 
 

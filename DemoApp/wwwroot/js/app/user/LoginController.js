@@ -5,6 +5,7 @@ myApp.controller('LoginController', function ($scope, $http, $state, $window, BA
 
     
     $scope.user = {
+        name : "",
         email: "",
         password: "",
     };
@@ -47,13 +48,13 @@ myApp.controller('LoginController', function ($scope, $http, $state, $window, BA
 
         $http.post(BASE_URL + "User/Login",
             {
-                "userEmail": user.email,
-                "userPassword": user.password
+                "UserName": user.name,
+                "UserEmail": user.email,
+                "UserPassword": user.password
             })
             .then(function (response) {
                
                 console.log("Login successful:", response.data);
-
                
                 localStorage.setItem('token', response.data.token);
 
@@ -67,9 +68,9 @@ myApp.controller('LoginController', function ($scope, $http, $state, $window, BA
                 $state.go('home');
             })
             .catch(function (error) {
-               
+
                 console.error("Login failed :", error);
-                ngNotify.set('logged in failed', 'error');
+                ngNotify.set('logged in failed:  ' + error.data ,'error');
 
             });
     };
