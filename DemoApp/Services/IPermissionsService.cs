@@ -7,15 +7,15 @@ namespace DemoApp.Services
     {
         public Task<object> GetAllPermissionAsync();
 
-        public Task<IActionResult> GetAllPermissionByRoleId([FromQuery] string roleId);
+        public Task<object> GetAllPermissionByRoleId(string roleId);
         
         public Task<object> InsertPermissionAsync(string permissionName);
 
-        public Task<IActionResult> AllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto);
+        public Task<string> AllocatePermissionToRoleAsync(RolePermissionDto rolePermissionDto);
 
         public Task<object> DeletePermissionAsync(string PermissionId);
 
-        public Task<IActionResult> DeAllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto);
+        public Task<string> DeAllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto);
 
         
 

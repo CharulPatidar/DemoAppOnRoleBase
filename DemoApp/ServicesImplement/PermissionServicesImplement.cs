@@ -1,4 +1,5 @@
-﻿using DemoApp.DTO;
+﻿using DemoApp.Controllers;
+using DemoApp.DTO;
 using DemoApp.Hubs;
 using DemoApp.Models;
 using DemoApp.Services;
@@ -29,14 +30,80 @@ namespace DemoApp.ServicesImplement
 
 
 
-        public Task<IActionResult> AllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto)
+        public async Task<string> AllocatePermissionToRoleAsync(RolePermissionDto rolePermissionDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var permission = _context.Permissions.Where(p => p.Id.ToString().Equals(rolePermissionDto.PermissionId)).FirstOrDefault();
+
+                var role = _context.Roles.Where(r => r.Id.ToString().Equals(rolePermissionDto.RoleId)).FirstOrDefault();
+
+                if (permission == null || role == null)
+                {
+                    return ("Assign Proper Role And Permission");
+                }
+
+
+                var RolePermissions = _context.RolePermissions.Where(rp => rp.PermissionId.ToString().Equals(rolePermissionDto.PermissionId) && rp.RoleId.ToString().Equals(rolePermissionDto.RoleId)).FirstOrDefault();
+               
+                if (RolePermissions != null)
+                { 
+                    return ($"Already  Permssion {permission.PermissionName} assign to role {role.RoleName}  "); 
+                }
+
+
+                RolePermission newRolePermission = new RolePermission();
+
+                newRolePermission.PermissionId = permission.Id;
+                newRolePermission.RoleId = role.Id;
+
+                newRolePermission.Role = role;
+                newRolePermission.Permission = permission;
+
+                _context.RolePermissions.Add(newRolePermission);
+                _context.SaveChanges();
+
+
+
+
+                return ($" Allocation Of Permission {permission.PermissionName} to Role {role.RoleName}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
+            }
         }
 
-        public Task<IActionResult> DeAllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto)
+        public async Task<string> DeAllocatePermissionToRole(RolePermissionDto rolePermissionDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var permission = _context.Permissions.Where(p => p.Id.ToString().Equals(rolePermissionDto.PermissionId)).FirstOrDefault();
+
+                var role = _context.Roles.Where(r => r.Id.ToString().Equals(rolePermissionDto.RoleId)).FirstOrDefault();
+
+                if (permission == null || role == null)
+                {
+                    return ("Assign Proper Role And Permission");   
+                }
+
+
+                var RolePermission = await _context.RolePermissions.Where(rp => rp.Permission.Equals(permission) && rp.Role.Equals(role)).FirstOrDefaultAsync();
+
+
+
+                _context.RolePermissions.Remove(RolePermission);
+                _context.SaveChanges();
+
+
+                return ($" DeAllocation Of Permission {permission.PermissionName} from the Role {role.RoleName}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<object> DeletePermissionAsync(string PermissionId)
@@ -92,9 +159,41 @@ namespace DemoApp.ServicesImplement
             }
         }
 
-        public Task<IActionResult> GetAllPermissionByRoleId([FromQuery] string roleId)
+        public async Task<object> GetAllPermissionByRoleId(string roleId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!Guid.TryParse(roleId, out Guid parsedRoleId))
+                {
+                    return (new { Error = "Invalid role ID format.", ErrorCode = "INVALID_ROLE_ID" });
+                }
+
+                var role = _context.Roles.AsEnumerable().FirstOrDefault(r => r.Id == parsedRoleId);
+
+                if (role == null)
+                {
+                    return (new { Error = $"Role with ID '{roleId}' not found.", ErrorCode = "ROLE_NOT_FOUND" });
+                }
+
+                // Retrieve permissions associated with the role, adjust as needed based on your entity relationships.
+                var rolePermissions = _context.RolePermissions
+                    .Include(rp => rp.Permission)
+                    .Where(rp => rp.RoleId == role.Id)
+                    .ToList();
+
+                var permissions = rolePermissions.Select(rp => rp.Permission.PermissionName).Distinct().ToList();
+                var permissionsNamesAndIds = rolePermissions
+                                .Select(rp => new { PermissionName = rp.Permission.PermissionName, PermissionId = rp.Permission.Id })
+                                .Distinct()
+                                .ToList();
+
+                return (permissionsNamesAndIds);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<object> InsertPermissionAsync(string permissionName)
