@@ -28,7 +28,7 @@ namespace DemoApp.ServicesImplement
         }
 
 
-        public async Task<string> AllocateRoleToUser(UserRoleDto userRoleDto)
+        public async Task<string> AllocateRoleToUserAsync(UserRoleDto userRoleDto)
         {
             try
             {
@@ -76,9 +76,30 @@ namespace DemoApp.ServicesImplement
             }
         }
 
-        public Task<IActionResult> DeAllocateRoleToUser([FromBody] UserRoleDto userRoleDto)
+        public async Task<string> DeAllocateRoleToUserAsync(UserRoleDto userRoleDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = _context.Users.Where(p => p.Id.ToString().Equals(userRoleDto.UserId)).FirstOrDefault();
+
+                var role = _context.Roles.Where(r => r.Id.ToString().Equals(userRoleDto.RoleId)).FirstOrDefault();
+
+                if (user == null || role == null) { return ("Assign Proper Role And user"); }
+
+
+                var userRole = _context.UserRoles.Where(rp => rp.User.Equals(user) && rp.Role.Equals(role)).FirstOrDefault();
+
+                _context.UserRoles.Remove(userRole);
+                _context.SaveChanges();
+
+
+                return ($" DeAllocation Of User {user.UserName} from Role {role.RoleName}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<object> DeleteRoleAsync(string RoleId)

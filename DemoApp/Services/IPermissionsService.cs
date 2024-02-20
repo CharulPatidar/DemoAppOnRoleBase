@@ -5,15 +5,15 @@ namespace DemoApp.Services
 {
     public interface IPermissionsService
     {
-        public Task<IActionResult> GetAllPermission();
+        public Task<object> GetAllPermissionAsync();
 
         public Task<IActionResult> GetAllPermissionByRoleId([FromQuery] string roleId);
         
-        public Task<IActionResult> InsertPermission([FromBody] PermissionDto permissionDto);
+        public Task<object> InsertPermissionAsync(string permissionName);
 
         public Task<IActionResult> AllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto);
 
-        public Task<IActionResult> DeletePermission([FromQuery] string PermissionId);
+        public Task<object> DeletePermissionAsync(string PermissionId);
 
         public Task<IActionResult> DeAllocatePermissionToRole([FromBody] RolePermissionDto rolePermissionDto);
 

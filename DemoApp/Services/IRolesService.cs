@@ -11,8 +11,8 @@ namespace DemoApp.Services
 
         public Task<object> DeleteRoleAsync(string RoleId);
 
-        public Task<string> AllocateRoleToUser(UserRoleDto userRoleDto);
+        public Task<string> AllocateRoleToUserAsync(UserRoleDto userRoleDto);
 
-        public Task<IActionResult> DeAllocateRoleToUser(UserRoleDto userRoleDto);
+        public Task<string> DeAllocateRoleToUserAsync(UserRoleDto userRoleDto);
     }
 }
