@@ -9,23 +9,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoApp.ServicesImplement
 {
-    public class PermissionServicesImplement : IPermissionsService
+    public class PermissionServicesImplement : BaseServiceImplement, IPermissionsService
     {
 
 
 
-        protected readonly ApplicationDbContext _context;
-        protected readonly IHttpContextAccessor _httpContextAccessor;
-        protected readonly IHubContext<NotesHub> _notesHub;
-
-
+       
         public PermissionServicesImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
+             : base(context, httpContextAccessor, notesHub)
         {
-            _context = context;
-            _httpContextAccessor = httpContextAccessor;
-            _notesHub = notesHub;
-
-
         }
 
 

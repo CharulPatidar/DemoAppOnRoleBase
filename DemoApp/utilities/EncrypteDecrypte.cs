@@ -51,5 +51,6 @@ namespace DemoApp.utilities
 
             return cipherText;
         }
+   
     }
 }

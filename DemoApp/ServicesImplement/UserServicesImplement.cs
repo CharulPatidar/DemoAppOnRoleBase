@@ -17,24 +17,15 @@ namespace DemoApp.ServicesImplement
 
 
 
-    public class UserServicesImplement : IUsersService
+    public class UserServicesImplement : BaseServiceImplement, IUsersService
     {
 
-
-        protected readonly ApplicationDbContext _context;
-        protected readonly IHttpContextAccessor _httpContextAccessor;
-        protected readonly IHubContext<NotesHub> _notesHub;
-
-
         public UserServicesImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
-        {
-            _context = context;
-            _httpContextAccessor = httpContextAccessor;
-            _notesHub = notesHub;
+          : base(context, httpContextAccessor, notesHub)
 
+        {
 
         }
-
 
 
         public async Task<object> DeleteUserAsync(string userId)
@@ -209,7 +200,7 @@ namespace DemoApp.ServicesImplement
 
                 if (key == null) { return ("null key "); }
 
-                var token = JwtTokenGenerator.createToken(existingUser, userRoles, key);
+                var token = JwtTokenGenerator.createJwtToken(existingUser, userRoles, key);
 
                 return token;
             }

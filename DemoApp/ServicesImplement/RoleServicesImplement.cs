@@ -9,21 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DemoApp.ServicesImplement
 {
-    public class RoleServicesImplement : IRolesService
+    public class RoleServicesImplement : BaseServiceImplement, IRolesService
     {
 
 
-        protected readonly ApplicationDbContext _context;
-        protected readonly IHttpContextAccessor _httpContextAccessor;
-        protected readonly IHubContext<NotesHub> _notesHub;
-
+   
 
         public RoleServicesImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
+             : base(context, httpContextAccessor, notesHub)
         {
-            _context = context;
-            _httpContextAccessor = httpContextAccessor;
-            _notesHub = notesHub;
-
+            
 
         }
 

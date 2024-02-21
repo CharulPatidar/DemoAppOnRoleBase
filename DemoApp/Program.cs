@@ -1,7 +1,6 @@
 using DemoApp.Controllers;
 using DemoApp.DependencyInjection;
 using DemoApp.Hubs;
-using DemoApp.Middleware;
 using DemoApp.Models;
 using DemoApp.Services;
 using DemoApp.ServicesImplement;
@@ -22,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure the db.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") + ";TrustServerCertificate=true" );
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
 
@@ -89,8 +88,6 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
 }
 
-// Your custom middleware comes here
-//app.UseMiddleware<CustomMiddleware>();
 
 
 app.UseHttpsRedirection();

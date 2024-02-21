@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middleware\" />
     <Folder Include="wwwroot\js\app\notes\" />
   </ItemGroup>
 

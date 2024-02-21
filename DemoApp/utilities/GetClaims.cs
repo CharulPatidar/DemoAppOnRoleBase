@@ -4,7 +4,10 @@
     {
 
 
-        GetClaims() { }
+        public GetClaims() 
+        { 
+        
+        }
 
         public static Dictionary<string,string> GetClaimsByToken(IHttpContextAccessor _httpContextAccessor)
         {

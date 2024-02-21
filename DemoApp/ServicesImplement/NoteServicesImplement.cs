@@ -10,20 +10,12 @@ using System.Text.Json;
 
 namespace DemoApp.ServicesImplement
 {
-    public class NoteServicesImplement : INotesService
+    public class NoteServicesImplement : BaseServiceImplement , INotesService 
     {
 
-        protected readonly ApplicationDbContext _context;
-        protected readonly IHttpContextAccessor _httpContextAccessor;
-        protected readonly IHubContext<NotesHub> _notesHub;
-
-
         public NoteServicesImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
+            : base(context, httpContextAccessor, notesHub)
         {
-            _context = context;
-            _httpContextAccessor = httpContextAccessor;
-            _notesHub = notesHub;
-
 
         }
 
