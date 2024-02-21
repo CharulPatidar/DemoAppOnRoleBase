@@ -25,8 +25,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 });
 
-Environment.SetEnvironmentVariable("SecretKey", "677C2E5962533A1C3D449C99F2AD76168aefw");
-var secretKey1 = builder.Configuration["Jwt:SecretKey"];
+Environment.SetEnvironmentVariable("SecretKey", "677C2E5962533A1C3D449C99F2AD76168aefw"); // used in  utilities.GetClaims
+var secretKey = builder.Configuration["Jwt:SecretKey"] ?? ""; //null-coalescing operator (??) to provide a default value "" ;
 
 
 //The circular reference occurs when serializing an object that references itself (or forms a loop with other objects). To Preventing WE Do This
@@ -51,7 +51,7 @@ builder.Services.AddScoped<INotesService, NoteServicesImplement>();
 builder.Services.AddEndpointsApiExplorer();
 
 //jwt  with extension method 
-builder.Services.AddJwtService();
+builder.Services.AddJwtService(secretKey);
 
 //builder.Services.AddSwaggerGen();
 
@@ -73,12 +73,6 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-
-
-// Add this in the Configure method
-//app.UseAuthentication();
-//app.UseAuthorization();
-
 
 
 // Configure the HTTP request pipeline.

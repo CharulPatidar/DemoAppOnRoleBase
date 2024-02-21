@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections;
 
@@ -19,12 +20,14 @@ namespace DemoApp.ServicesImplement
 
     public class UserServicesImplement : BaseServiceImplement, IUsersService
     {
+        private readonly IConfiguration _configuration;
 
-        public UserServicesImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
+      
+        public UserServicesImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub, IConfiguration configuration)
           : base(context, httpContextAccessor, notesHub)
 
         {
-
+            _configuration = configuration;
         }
 
 
@@ -127,7 +130,8 @@ namespace DemoApp.ServicesImplement
             try
             {
                 var token = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer ", "");
-                var key = Environment.GetEnvironmentVariable("SecretKey");
+                //  var key = Environment.GetEnvironmentVariable("SecretKey");
+                var key = _configuration["Jwt:SecretKey"];
 
                 JwtTokenGenerator.VerifyJwtToken(token, key, httpContext); // Verify and set claims in HttpContext
 
@@ -196,7 +200,8 @@ namespace DemoApp.ServicesImplement
 
 
 
-                var key = Environment.GetEnvironmentVariable("SecretKey");
+                //var key = Environment.GetEnvironmentVariable("SecretKey");
+                var key = _configuration["Jwt:SecretKey"];
 
                 if (key == null) { return ("null key "); }
 

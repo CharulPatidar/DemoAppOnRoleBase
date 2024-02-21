@@ -37,7 +37,10 @@ myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
 
         if (token) {
             config.headers.Authorization = 'Bearer ' + token;
-        } else {
+            $rootScope.setUserData();
+        }
+        else
+        {
             // Redirect to login page if token is not found
             $state.go('login');
         }
@@ -120,3 +123,25 @@ myApp.factory('signalRService', function () {
     };
 });
 
+myApp.run(function ($rootScope, $http, BASE_URL, UserService, ngNotify) {
+    // Define the function under $rootScope
+    $rootScope.setUserData = function () {
+        $http.get(BASE_URL + "User/GetUserData")
+            .then(function (response) {
+                console.log("GetUserData successful:", response.data);
+                var userData = {
+                    userName: response.data.userName,
+                    userId: response.data.userId,
+                    roles: response.data.roles,
+                    userEmail: response.data.userEmail
+                };
+                ngNotify.set('You have successfully logged in!  ' + userData.userName, {
+                    type: 'success'
+                });
+                UserService.setUserData(userData);
+            })
+            .catch(function (error) {
+                console.error("Login failed:", error);
+            });
+    };
+});
