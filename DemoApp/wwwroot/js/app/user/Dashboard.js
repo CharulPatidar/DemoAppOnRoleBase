@@ -450,8 +450,8 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         })
             .then(function (response) {
                 // Success callback
-                console.log(' successful:', response.data);
-                ngNotify.set('successful ' + response.data, {
+                console.log(' successful: ', response.data);
+                ngNotify.set('successful  ' + response.data, {
                     type: 'success'
                 });
 
@@ -466,7 +466,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
             })
             .catch(function (error) {
                 // Error callback
-                console.error('failed:', error);
+                console.error('failed: ', error);
             });
     }
 

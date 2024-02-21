@@ -15,7 +15,7 @@ myApp.controller('UserProfileController', function ($scope, $http, $state, $wind
 
     $scope.getNotes = function () {
         
-        $http.get(BASE_URL + 'User/GetNotesByUserId')
+        $http.get(BASE_URL + 'Note/GetNotesByUserId')
             .then(function (response) {
                 $scope.notes = response.data.$values;
                 console.log("GetNotes successful:", $scope.notes);

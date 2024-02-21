@@ -30,7 +30,7 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
 
     // Fetch notes using an IIFE
     (function getNotes() {
-        $http.get(BASE_URL + 'User/GetAllNotes')
+        $http.get(BASE_URL + 'Note/GetAllNotes')
             .then(function (response) {
                 $scope.notes = response.data.$values;
                 console.log("GetNotes successful:", $scope.notes);
@@ -48,7 +48,7 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
 
 
 
-        $http.get(BASE_URL + 'User/GetAllNotes')
+        $http.get(BASE_URL + 'Note/GetAllNotes')
             .then(function (response) {
                 $scope.notes = response.data.$values;
                 console.log("GetNotes successful:", $scope.notes);
@@ -114,7 +114,7 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
             if (index !== -1) {
                 // Update the note in the array with the edited note
                 $scope.notes[index] = result;
-                ngNotify.set('Note Edited' + note.topic, {
+                ngNotify.set('Note Edited:  ' + note.topic, {
                     type: 'info'
                 });
             }
@@ -177,7 +177,7 @@ myApp.controller('NotesController', function ($scope, $http, $uibModal, $state, 
             var index = $scope.notes.indexOf(result);
             if (index !== -1) {
                 $scope.notes.splice(index, 1);
-                ngNotify.set('Note Deleted' + note.topic, {
+                ngNotify.set('Note Deleted:  ' + note.topic, {
                     type: 'error'
                 });
             }

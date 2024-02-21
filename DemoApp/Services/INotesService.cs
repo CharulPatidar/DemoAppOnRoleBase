@@ -7,14 +7,14 @@ namespace DemoApp.Services
     public interface INotesService 
     {
 
-        public Task<IActionResult> GetAllNotes();
+        public Task<object> GetAllNotes();
 
-        public Task<IActionResult> GetNotesByUserId();
+        public Task<object> GetNotesByUserId(string UserId);
 
-        public Task<IActionResult> AddNotes([FromBody] NotesDto notesDto);
+        public Task<string> AddNotes(NotesDto notesDto, string UserId);
 
-        public Task<IActionResult> UpdateNoteById([FromBody] NotesDto notesDto);
+        public Task<string> UpdateNoteById(NotesDto notesDto, string UserId);
 
-        public Task<IActionResult> DeleteNoteById([FromBody] NotesDto notesDto);
+        public Task<string> DeleteNoteById(NotesDto notesDto, string UserId);
     }
 }
