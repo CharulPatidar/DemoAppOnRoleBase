@@ -7,6 +7,9 @@
         public string UserEmail { get; set; }
         public string UserPassword { get; set; }
 
+        public string UserSalt { get; set; }
+        public string UserHashedPassword { get; set; }
+
 
         public User()
         {

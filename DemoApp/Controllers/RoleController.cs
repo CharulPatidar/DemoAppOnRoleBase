@@ -154,7 +154,6 @@ namespace DemoApp.Controllers
         }
         #endregion
 
-
         #region DeAllocate Role To User
         [HttpPost]
         [Route("DeAllocateRoleToUser")]

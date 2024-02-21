@@ -53,8 +53,6 @@ namespace DemoApp.Controllers
 
         #endregion
 
-
-
         #region addPermission
         [HttpPost]
         [Route("InsertPermission")]
@@ -88,8 +86,6 @@ namespace DemoApp.Controllers
         }
 
         #endregion
-
-
 
         #region deletePermission
         [HttpDelete]
@@ -125,10 +121,6 @@ namespace DemoApp.Controllers
         }
         #endregion
 
-
-
-
-
         #region Allocate Permission To Role
         [HttpPost]
         [Route("AllocatePermissionToRole")]
@@ -159,7 +151,6 @@ namespace DemoApp.Controllers
         }
         #endregion
 
-
         #region GetAllPermissionByRoleId
 
         [HttpGet]
@@ -189,10 +180,6 @@ namespace DemoApp.Controllers
         }
 
         #endregion
-
-
-
-
 
         #region DeAllocate Permission To Role
         [HttpPost]

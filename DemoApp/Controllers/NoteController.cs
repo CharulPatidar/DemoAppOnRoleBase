@@ -195,8 +195,6 @@ namespace DemoApp.Controllers
 
         #endregion
 
-
-
         #region GetNotesByUserId
         [HttpGet]
         [Route("GetNotesByUserId")]

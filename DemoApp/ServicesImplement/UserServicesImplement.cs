@@ -3,6 +3,7 @@ using DemoApp.Hubs;
 using DemoApp.Models;
 using DemoApp.Services;
 using DemoApp.utilities;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -11,6 +12,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace DemoApp.ServicesImplement
@@ -184,7 +187,26 @@ namespace DemoApp.ServicesImplement
            try
             {
                 string encryptedPassword = EncrypteDecrypte.Encrypt(userDto.UserPassword);
+                //hashedpassword
 
+                var userSalt = await _context.Users
+                    .Where(u => u.UserEmail == userDto.UserEmail)
+                    .Select(u => u.UserSalt)
+                    .FirstOrDefaultAsync();
+
+                byte[] saltBytes = Convert.FromBase64String(userSalt); // Convert userSalt to byte array
+
+
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                   password: encryptedPassword,
+                   salt: saltBytes,
+                   prf: KeyDerivationPrf.HMACSHA256,
+                   iterationCount: 100000,
+                   numBytesRequested: 256 / 8));
+
+               // var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userDto.UserEmail && u.UserHashedPassword == hashed);
+
+                //hashedpassword-------
                 var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userDto.UserEmail && u.UserPassword == encryptedPassword);
 
                 if (existingUser == null)
@@ -236,13 +258,32 @@ namespace DemoApp.ServicesImplement
                 {
                     return "User already registered";
                 }
+                // hashed password --
 
+                byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
+                var userSalt = Convert.ToBase64String(salt);
+                Console.WriteLine($"Salt: {userSalt}");
+
+                // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: userDto.UserPassword,
+                    salt: salt,
+                    prf: KeyDerivationPrf.HMACSHA256,
+                    iterationCount: 100000,
+                    numBytesRequested: 256 / 8));
+
+                Console.WriteLine($"Hashed: {hashed}");
+
+                 // return null;
+                //-- hashed password
                 // Create a new user
                 User newUser = new User
                 {
                     UserName = userDto.UserName,
                     UserEmail = userDto.UserEmail,
-                    UserPassword = userDto.UserPassword
+                    UserPassword = userDto.UserPassword,
+                    UserSalt = userSalt,
+                    UserHashedPassword = hashed
                 };
 
                 // Add the user to the context
