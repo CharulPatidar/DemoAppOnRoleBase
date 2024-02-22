@@ -47,6 +47,9 @@ namespace DemoApp.Models
                 entity.HasIndex(e => e.UserEmail, "uq_users_email").IsUnique();
                 entity.Property(e => e.UserEmail).HasColumnName("email");
                 entity.Property(e => e.UserPassword).HasColumnName("password");
+                entity.Property(e => e.UserSalt).HasColumnName("user_salt");
+                entity.Property(e => e.UserHashedPassword).HasColumnName("user_hashed_password");
+
             });
 
 

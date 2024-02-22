@@ -1,5 +1,18 @@
 ﻿
+<style type="text/css">
 
+    .ng-invalid.ng-dirty {
+        border-color: red;
+    }
+
+    .ng-valid.ngdirty {
+        border-color: green;
+    }
+
+    input, textarea {
+        border: 2px solid;
+    }
+</style>
 <div class="h-100 gradient-form" style="background-color: #eee;" ng-controller="RegisterController">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -15,35 +28,35 @@
                                     <h4 class="mt-1 mb-5 pb-1">Registration </h4>
                                 </div>
 
-                                <form>
+                                <form name="registerform" ng-submit="registerform.$valid && register(userData)">
                                     <p>Please Register for login</p>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="userName">User Name</label>
                                         <input type="text" id="userName" class="form-control"
-                                               placeholder="User Name" ng-model="userData.uname" />
+                                           required    placeholder="User Name" ng-model="userData.uname" />
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="userEmail">User Email</label>
                                         <input type="email" id="usereEmail" class="form-control"
-                                               placeholder="email address" ng-model="userData.email" />
+                                           required    placeholder="email address" ng-model="userData.email" />
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="userPassword">Password</label>
                                         <input type="password" id="userPassword" class="form-control"
-                                               placeholder="password" ng-model="userData.password" />
+                                          required     placeholder="password" ng-model="userData.password" />
                                     </div>
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="userConfirmPassword">Confirm Password</label>
                                         <input type="password" id="userConfirmPassword" class="form-control"
-                                               placeholder="confirm password" ng-model="userData.confirmPassword" />
+                                          required     placeholder="confirm password" ng-model="userData.confirmPassword" />
                                     </div>
 
 
                                     <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" ng-click="register(userData)">
+                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
                                             Resister
                                         </button>
                                         <a class="text-muted" ui-sref="login" >Login</a>

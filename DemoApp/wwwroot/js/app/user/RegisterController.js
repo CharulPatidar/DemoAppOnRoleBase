@@ -15,14 +15,23 @@ myApp.controller('RegisterController', function ($scope, $http, $state, BASE_URL
 
 
         var user = $scope.userData;
-        debugger;
+
         console.log(user, dd);
+
+        if (dd.password !== dd.confirmPassword) {
+
+            ngNotify.set('Both password should be same! ', {
+                type: 'error'
+            });
+            return;
+        }
+
 
         $http.post(BASE_URL + "User/Register", {
 
-            "userName": user.uname,
-            "userEmail": user.email,
-            "userPassword": user.password
+            "UserName": user.uname,
+            "UserEmail": user.email,
+            "UserPassword": user.password
         })
         .then(function (response) {
             console.log("Register successful:", response.data);
@@ -34,6 +43,9 @@ myApp.controller('RegisterController', function ($scope, $http, $state, BASE_URL
         })
         .catch(function (error) {
             console.error("Registration failed:", error);
+            ngNotify.set('Register failed ! ' + error.data, {
+                type: 'error'
+            });
         });
     }
 });

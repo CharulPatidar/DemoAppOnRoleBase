@@ -1,9 +1,9 @@
 ﻿
 /* CSS Reset */
 html, body {
-    margin: -10px;
-    margin-left: -21px;
-    margin-right: -21px
+    margin: 0px;
+    margin-left: 0px;
+    margin-right: 0px
 }
 
 body {
@@ -31,7 +31,6 @@ a {
 
 .custom-hight{
 
-height:100vh;
 
 }
 

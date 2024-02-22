@@ -16,22 +16,22 @@ myApp.controller('EditController', function ($scope, $uibModal, $uibModalInstanc
 
         console.log(token)
 
-        $http.put(BASE_URL + 'TeamLead/UpdateNoteById',
+        $http.put(BASE_URL + 'Note/UpdateNoteById',
             {
-                "UserId": token,
+              
                 "NoteId": note.id,
                 "NoteTopic": note.topic,
                 "NoteDescription": note.description
             })
             .then(function (response) {
                 // Success callback
-                console.log('put request successful:', response.data);
+                console.log('put request successful:  ', response.data);
                 $state.go('notes');
 
             })
             .catch(function (error) {
                 // Error callback
-                console.error('put request failed:', error);
+                console.error('put request failed:  ', error);
             });
 
 

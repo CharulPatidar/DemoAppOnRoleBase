@@ -3,6 +3,9 @@
 var myApp = angular.module('myApp', ['ui.router', 'ui.bootstrap', 'ngNotify' ]);
 
 
+
+
+
 // Define AngularJS controller
 myApp.controller('myController', function ($scope ,$state) {
     // Message for AngularJS binding
@@ -10,6 +13,8 @@ myApp.controller('myController', function ($scope ,$state) {
     $state.go('home');
 
     $scope.message = 'This is an AngularJS message.';
+
+
 });
 
 
@@ -20,7 +25,7 @@ myApp.constant('BASE_URL', 'https://localhost:7128/api/'); // Define the base UR
 
 
 
-myApp.factory('AuthInterceptor', function ($rootScope, $state) {
+myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
     var authInterceptor = {};
     authInterceptor.request = function (config) {
         var token = localStorage.getItem('token');
@@ -32,7 +37,10 @@ myApp.factory('AuthInterceptor', function ($rootScope, $state) {
 
         if (token) {
             config.headers.Authorization = 'Bearer ' + token;
-        } else {
+            $rootScope.setUserData();
+        }
+        else
+        {
             // Redirect to login page if token is not found
             $state.go('login');
         }
@@ -63,10 +71,7 @@ myApp.factory('AuthService', function ($rootScope, AuthInterceptor) {
         $rootScope.$broadcast('logoutEvent');
 
 
-        // we can catch it by .... in any controller
-        //$scope.$on('logoutEvent', function () {
-        //    // Your code to handle the logout event
-        //});
+        
 
        
     };
@@ -97,17 +102,46 @@ myApp.service('UserService', function ($rootScope) {
     };
 });
 
+myApp.factory('signalRService', function () {
+    const connection = new signalR.HubConnectionBuilder().withUrl("/NotesHub").build();
 
+    connection.start().then(() => {
+        console.log("SignalR connection established");
+    }).catch(err => console.error(err));
 
+    // Return the connection object and the onReceiveMsg method
+    return {
+        connection: connection,
+        onReceiveMsg: function (callback) {
+            // Ensure that connection object is defined before trying to subscribe to events
+            if (connection) {
+                connection.on("ReceiveMsg", callback);
+            } else {
+                console.error("SignalR connection is not initialized.");
+            }
+        }
+    };
+});
 
-//var connection = new signalR.HubConnectionBuilder().withUrl("/NotesHub").build(); //
-
-
-//connection.start();
-
-//connection.on("ReceiveMsg", function (msg) {
-
-
-//    console.log(msg);
-
-//})
+myApp.run(function ($rootScope, $http, BASE_URL, UserService, ngNotify) {
+    // Define the function under $rootScope
+    $rootScope.setUserData = function () {
+        $http.get(BASE_URL + "User/GetUserData")
+            .then(function (response) {
+                console.log("GetUserData successful:", response.data);
+                var userData = {
+                    userName: response.data.userName,
+                    userId: response.data.userId,
+                    roles: response.data.roles,
+                    userEmail: response.data.userEmail
+                };
+                ngNotify.set('You have successfully logged in!  ' + userData.userName, {
+                    type: 'success'
+                });
+                UserService.setUserData(userData);
+            })
+            .catch(function (error) {
+                console.error("Login failed:", error);
+            });
+    };
+});

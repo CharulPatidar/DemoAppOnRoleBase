@@ -16,9 +16,8 @@ myApp.controller('AddController', function ($scope, $uibModal, $uibModalInstance
 
         console.log(token)
 
-        $http.post(BASE_URL + 'Developer/AddNotes',
+        $http.post(BASE_URL + 'Note/AddNotes',
             {
-                "UserId": token,
                 "NoteTopic": note.topic,
                 "NoteDescription": note.description
             })

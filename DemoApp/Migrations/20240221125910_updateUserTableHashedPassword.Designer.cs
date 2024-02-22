@@ -4,6 +4,7 @@ using DemoApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240221125910_updateUserTableHashedPassword")]
+    partial class updateUserTableHashedPassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,8 +134,7 @@ namespace DemoApp.Migrations
 
                     b.Property<string>("UserHashedPassword")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("user_hashed_password");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -146,8 +148,7 @@ namespace DemoApp.Migrations
 
                     b.Property<string>("UserSalt")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("user_salt");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id")
                         .HasName("user_pkey");

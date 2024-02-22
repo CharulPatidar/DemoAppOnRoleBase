@@ -20,7 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middleware\" />
     <Folder Include="wwwroot\js\app\notes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\app\user\NotesController.js" />
   </ItemGroup>
 
 </Project>

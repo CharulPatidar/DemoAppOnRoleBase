@@ -3,7 +3,7 @@
 myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibModal, ngNotify) {
     console.log("DashboardController");
     $scope.users;
-    $scope.roles;
+    $scope.roles = [];
     $scope.permissions;
    
     
@@ -11,7 +11,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
 
     // IIFE for fetching all users
     (function getAllUsers() {
-        $http.get(BASEURL + 'Admin/GetAllUsers')
+        $http.get(BASEURL + 'User/GetAllUsers')
             .then(function (response) {
                 console.log("All Users successful:", response.data.$values);
                 $scope.users = response.data.$values;
@@ -23,8 +23,8 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
     })();
 
     // IIFE for fetching all roles
-    (function getAllRoles() {
-        $http.get(BASEURL + 'Admin/GetAllRoles')
+     $scope.getAllRoles = (function getAllRoles() {
+        $http.get(BASEURL + 'Role/GetAllRoles')
             .then(function (response) {
                 console.log("All Roles successful:", response.data.$values);
                 $scope.roles = response.data.$values; // Assign roles data to $scope.roles
@@ -35,8 +35,8 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
     })();
 
     // IIFE for fetching all permissions
-    (function getAllPermissions() {
-        $http.get(BASEURL + 'Admin/GetAllPermission')
+    $scope.getAllPermission =  (function getAllPermissions() {
+        $http.get(BASEURL + 'Permission/GetAllPermission')
             .then(function (response) {
                 console.log("All Permission successful:", response.data.$values);
                 $scope.permissions = response.data.$values;; // Assign permissions data to $scope.permissions
@@ -105,7 +105,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
     };
     $scope.AllocateRoleToUser = function () {
 
-        $http.post(BASE_URL + 'Admin/AllocateRoleToUser',
+        $http.post(BASE_URL + 'Role/AllocateRoleToUser',
             {
                 "UserId": $scope.AllocatedRU.UserId,
                 "RoleId": $scope.AllocatedRU.RoleId
@@ -124,6 +124,9 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
             .catch(function (error) {
                 // Error callback
                 console.error('failed:', error);
+                ngNotify.set('failed ' + error.data, {
+                    type: 'error'
+                });
             });
 
     }
@@ -138,7 +141,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
     };
     $scope.AllocatePermissionToRole = function () {
 
-        $http.post(BASE_URL + 'Admin/AllocatePermissionToRole',
+        $http.post(BASE_URL + 'Permission/AllocatePermissionToRole',
             {
                 "PermissionId": $scope.AllocatedPR.PermissionId,
                 "RoleId": $scope.AllocatedPR.RoleId
@@ -181,18 +184,23 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
 
             `,
             controller: function ($scope, $uibModalInstance) {
+
                 $scope.$uibModalInstance = $uibModalInstance; // Injecting $uibModalInstance into RoleController
 
                 // Define your RoleController functions here
                 $scope.roleName;
                 $scope.ok = function () {
                     var roleName = JSON.stringify($scope.roleName)
-                    $http.post(BASE_URL + 'Admin/InsertRole', roleName)
+                    $http.post(BASE_URL + 'Role/InsertRole', roleName)
                         .then(function (response) {
                             // Success callback
                             console.log(' successful:', response.data);
-                            $scope.roles.push(response.data);
-                            debugger;
+                            var data = response.data;
+                           // $scope.getAllRoles();
+                            //debugger;
+                            ngNotify.set('successfully addded role :  ' + roleName, {
+                                type: 'success'
+                            });
 
                         })
                         .catch(function (error) {
@@ -233,10 +241,10 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
             animation: true,
             size: '100%',
             template: `
-               <div ng-controller="PermissionController">
+               <div>
                     <h2>Add Permission</h2>
                     <div class="form-group">
-                        <label for="roleName">Permission Name:</label>
+                        <label for="permissionName">Permission Name:</label>
                         <input type="text" class="form-control" id="permissionName" ng-model="permissionName">
                     </div>
                     <button class="btn btn-primary" ng-click="ok()">OK</button>
@@ -244,7 +252,39 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
                 </div>
 
             `,
-            controller: 'PermissionController',
+            controller: function ($scope, $uibModalInstance) {
+
+                $scope.$uibModalInstance = $uibModalInstance; // Injecting $uibModalInstance into RoleController
+
+                // Define your RoleController functions here
+                $scope.permissionName;
+                $scope.ok = function () {
+                    var permissionName = JSON.stringify($scope.permissionName)
+                    $http.post(BASE_URL + 'Permission/InsertPermission', permissionName)
+                        .then(function (response) {
+                            // Success callback
+                            console.log(' successful:', response.data);
+                            var data = response.data;
+                           // $scope.getAllPermission();
+                           // debugger;
+                            ngNotify.set('successfully addded Permission :  ' + permissionName, {
+                                type: 'success'
+                            });
+
+                        })
+                        .catch(function (error) {
+                            // Error callback
+                            console.error('failed:', error);
+                        });
+
+                    $uibModalInstance.close('done');
+                };
+
+                $scope.cancel = function () {
+                    // Your implementation
+                    $uibModalInstance.dismiss('cancel');
+                };
+            }
 
         });
 
@@ -278,7 +318,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         $scope.getRoleForUser.roleId = role.id;
 
 
-        $http.get(BASE_URL + 'Admin/GetAllUserByRoleId?roleId=' + role.id)
+        $http.get(BASE_URL + 'User/GetAllUserByRoleId?roleId=' + role.id)
             .then(function (response) {
                 // Success callback
                 console.log(' successful:', response.data.$values);
@@ -305,7 +345,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         var roleId = $scope.getRoleForUser.roleId;
         console.log("de",roleId)
 
-        $http.post(BASE_URL + 'Admin/DeAllocateRoleToUser', {
+        $http.post(BASE_URL + 'Role/DeAllocateRoleToUser', {
             
             "RoleId": roleId,
             "UserId": userId
@@ -345,7 +385,7 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         $scope.getRoleForPermission.roleId = role.id;
 
 
-        $http.get(BASE_URL + 'Admin/GetAllPermissionByRoleId?roleId=' + role.id)
+        $http.get(BASE_URL + 'Permission/GetAllPermissionByRoleId?roleId=' + role.id)
             .then(function (response) {
                 // Success callback
                 console.log(' successful:', response.data.$values);
@@ -370,14 +410,15 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         var roleId = $scope.getRoleForPermission.roleId;
         console.log("de", p);
 
-        $http.post(BASE_URL + 'Admin/DeAllocatePermissionToRole', {
+        $http.post(BASE_URL + 'Permission/DeAllocatePermissionToRole', {
 
             "RoleId": roleId,
             "PermissionId": p.permissionId
 
         })
             .then(function (response) {
-                // Success callback
+                // Success callback 
+                debugger;
                 console.log(' successful:', response.data);
                 ngNotify.set('successful ' + response.data, {
                     type: 'success'
@@ -385,6 +426,10 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
             })
             .catch(function (error) {
                 // Error callback
+                debugger;
+                ngNotify.set('failed:  ' + response.data, {
+                    type: 'error'
+                });
                 console.error('failed:', error);
             });
 
@@ -398,15 +443,15 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         debugger;
         $http({
             method: 'DELETE',
-            url: BASE_URL + 'Admin/DeleteUser?userId=' + userId,
+            url: BASE_URL + 'User/DeleteUser?userId=' + userId,
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(function (response) {
                 // Success callback
-                console.log(' successful:', response.data);
-                ngNotify.set('successful ' + response.data, {
+                console.log(' successful: ', response.data);
+                ngNotify.set('successful  ' + response.data, {
                     type: 'success'
                 });
 
@@ -421,17 +466,16 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
             })
             .catch(function (error) {
                 // Error callback
-                console.error('failed:', error);
+                console.error('failed: ', error);
             });
     }
 
     
     $scope.DeleteRole = function (role) {
         var roleId = role.id;
-        debugger;
         $http({
             method: 'DELETE',
-            url: BASE_URL + 'Admin/DeleteRole?RoleId=' + roleId,
+            url: BASE_URL + 'Role/DeleteRole?RoleId=' + roleId,
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -463,15 +507,15 @@ myApp.controller('DashboardController', function ($scope, $http, BASE_URL, $uibM
         debugger;
         $http({
             method: 'DELETE',
-            url: BASE_URL + 'Admin/DeletePermission?PermissionId=' + permissionId,
+            url: BASE_URL + 'Permission/DeletePermission?PermissionId=' + permissionId,
             headers: {
                 'Content-Type': 'application/json'
             }
         })
             .then(function (response) {
                 // Success callback
-                console.log(' successful:', response.data);
-                ngNotify.set('successful ' + response.data, {
+                console.log(' successfully:', response.data);
+                ngNotify.set('successfully deleted Permission ' + response.data, {
                     type: 'success'
                 });
 

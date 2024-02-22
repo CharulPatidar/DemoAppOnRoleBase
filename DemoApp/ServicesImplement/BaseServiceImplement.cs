@@ -1,24 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using DemoApp.Hubs;
 using DemoApp.Models;
 using Microsoft.AspNetCore.SignalR;
-using DemoApp.Hubs;
-using Microsoft.AspNetCore.Cors;
+using Microsoft.EntityFrameworkCore;
 
-namespace DemoApp.Controllers
+namespace DemoApp.ServicesImplement
 {
-
-    //[EnableCors("AllowAll")] // Enable CORS for this /*controller*/
-
-    public class BaseController : ControllerBase
+    public class BaseServiceImplement
     {
 
         protected readonly ApplicationDbContext _context;
         protected readonly IHttpContextAccessor _httpContextAccessor;
         protected readonly IHubContext<NotesHub> _notesHub;
 
-
-        public BaseController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
+        public BaseServiceImplement(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, IHubContext<NotesHub> notesHub)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
@@ -26,7 +20,5 @@ namespace DemoApp.Controllers
 
 
         }
-
-
     }
 }

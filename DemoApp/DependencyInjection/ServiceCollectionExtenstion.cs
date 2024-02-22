@@ -6,11 +6,11 @@ namespace DemoApp.DependencyInjection
 {
     public static class ServiceCollectionExtenstion
     {
-        public static void AddJwtService(this IServiceCollection services)
+        public static void AddJwtService(this IServiceCollection services,string secretKey)
         {
 
-            var key = Environment.GetEnvironmentVariable("SecretKey");
-
+           // var key = Environment.GetEnvironmentVariable("SecretKey");
+            var key = secretKey;
             if (key == null) { return; }
 
 

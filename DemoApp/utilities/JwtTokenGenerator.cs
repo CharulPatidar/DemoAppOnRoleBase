@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 public class JwtTokenGenerator
 {
-    public static string createToken(User userInfo, List<string> roleslist,string key)
+    public static string createJwtToken(User userInfo, List<string> roleslist,string key)
     {
         Console.WriteLine(roleslist);
         var claims = new List<Claim> {
@@ -47,35 +47,35 @@ public class JwtTokenGenerator
 
 
 
-    public static string GenerateJwtToken(string username, string userrole,string userid, string secretKey)
-    {
-        var tokenHandler = new JwtSecurityTokenHandler(); // creating handler intance
+    //public static string GenerateJwtToken(string username, string userrole,string userid, string secretKey)
+    //{
+    //    var tokenHandler = new JwtSecurityTokenHandler(); // creating handler intance
 
 
-        var key = Encoding.UTF8.GetBytes(secretKey); // Replace with your secret key
+    //    var key = Encoding.UTF8.GetBytes(secretKey); // Replace with your secret key
 
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, username), // Add claims as needed
-                new Claim(ClaimTypes.Role, userrole),
-                new Claim(ClaimTypes.NameIdentifier, userid)
+    //    var tokenDescriptor = new SecurityTokenDescriptor
+    //    {
+    //        Subject = new ClaimsIdentity(new Claim[]
+    //        {
+    //            new Claim(ClaimTypes.Name, username), // Add claims as needed
+    //            new Claim(ClaimTypes.Role, userrole),
+    //            new Claim(ClaimTypes.NameIdentifier, userid)
 
 
-              //   Add other claims...
-            }),
+    //          //   Add other claims...
+    //        }),
 
-            Expires = DateTime.UtcNow.AddHours(1), // Set token expiration time
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
+    //        Expires = DateTime.UtcNow.AddHours(1), // Set token expiration time
+    //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+    //    };
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
+    //    var token = tokenHandler.CreateToken(tokenDescriptor);
 
-        var tokenString = tokenHandler.WriteToken(token);
+    //    var tokenString = tokenHandler.WriteToken(token);
 
-        return tokenString;
-    }
+    //    return tokenString;
+    //}
 
     public static bool VerifyJwtToken(string token, string secretKey, HttpContext context)
     {

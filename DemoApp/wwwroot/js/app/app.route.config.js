@@ -34,6 +34,12 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
             templateUrl: '/html/notes.html',
             controller: 'NotesController',
            
+        })
+        .state('profile', {
+            url: '/profile',
+            templateUrl: '/html/userProfile.html',
+            controller: 'UserProfileController',
+
         });
             
      //$urlRouterProvider.otherwise('/home'); // Default route

@@ -1,8 +1,9 @@
 using DemoApp.Controllers;
 using DemoApp.DependencyInjection;
 using DemoApp.Hubs;
-using DemoApp.Middleware;
 using DemoApp.Models;
+using DemoApp.Services;
+using DemoApp.ServicesImplement;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure the db.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") + ";TrustServerCertificate=true" );
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
 
-Environment.SetEnvironmentVariable("SecretKey", "677C2E5962533A1C3D449C99F2AD76168aefw");
-var secretKey1 = builder.Configuration["Jwt:SecretKey"];
+Environment.SetEnvironmentVariable("SecretKey", "677C2E5962533A1C3D449C99F2AD76168aefw"); // used in  utilities.GetClaims
+var secretKey = builder.Configuration["Jwt:SecretKey"] ?? ""; //null-coalescing operator (??) to provide a default value "" ;
 
 
 //The circular reference occurs when serializing an object that references itself (or forms a loop with other objects). To Preventing WE Do This
@@ -36,6 +37,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 
+builder.Services.AddScoped<IUsersService, UserServicesImplement>();
+builder.Services.AddScoped<IRolesService, RoleServicesImplement>();
+builder.Services.AddScoped<IPermissionsService, PermissionServicesImplement>();
+builder.Services.AddScoped<INotesService, NoteServicesImplement>();
+
 
 
 // Add services to the container.
@@ -45,7 +51,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 
 //jwt  with extension method 
-builder.Services.AddJwtService();
+builder.Services.AddJwtService(secretKey);
 
 //builder.Services.AddSwaggerGen();
 
@@ -53,14 +59,20 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSignalR();        // ->>>>>>>>>>  Assing Signalr AS Service
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+});
+
 
 var app = builder.Build();
-
-
-// Add this in the Configure method
-//app.UseAuthentication();
-//app.UseAuthorization();
-
 
 
 // Configure the HTTP request pipeline.
@@ -70,8 +82,6 @@ if (app.Environment.IsDevelopment())
     //app.UseSwaggerUI();
 }
 
-// Your custom middleware comes here
-//app.UseMiddleware<CustomMiddleware>();
 
 
 app.UseHttpsRedirection();
@@ -80,6 +90,12 @@ app.UseHttpsRedirection();
 app.UseFileServer();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+app.UseRouting();
+
+// Enable CORS middleware
+//app.UseCors("AllowAll");
+
 
 
 app.UseAuthentication();

@@ -1,6 +1,17 @@
-﻿
+﻿<style type="text/css">
 
+    .ng-invalid.ng-dirty {
+        border-color: red;
+    }
 
+    .ng-valid.ngdirty {
+        border-color: green;
+    }
+
+    input, textarea {
+        border: 2px solid;
+    }
+</style>
 <div class="h-100 gradient-form" style="background-color: #eee;" ng-controller="LoginController">
 
     <div class="container py-5 h-100">
@@ -17,23 +28,23 @@
                                     <h4 class="mt-1 mb-5 pb-1">Login </h4>
                                 </div>
 
-                                <form>
+                                <form name="loginform" ng-submit="loginform.$valid &&  login()" >
                                     <p>Please login to your account</p>
 
                                     <div class="form-outline mb-4">
                                         <input type="email" id="userEmail" class="form-control"
-                                               placeholder="Email address" ng-model="user.email" />
+                                           required    placeholder="Email address" ng-model="user.email" />
                                         <label class="form-label" for="userEmail">User Email</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <input type="password" id="userPassword" class="form-control"
-                                               placeholder="password" ng-model="user.password" />
+                                           required    placeholder="password" ng-model="user.password" />
                                         <label class="form-label" for="userPassword">Password</label>
                                     </div>
 
                                     <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button" ng-click="login()">
+                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
                                             Log
                                             in
                                         </button>

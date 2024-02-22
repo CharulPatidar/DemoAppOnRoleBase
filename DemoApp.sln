@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoApp", "DemoApp\DemoApp.csproj", "{BC697898-EF9D-49EA-8082-425495FDBF71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingCrossPoly", "TestingCrossPoly\TestingCrossPoly.csproj", "{D6629A47-D4D6-45B1-A304-5A4846E726BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BC697898-EF9D-49EA-8082-425495FDBF71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC697898-EF9D-49EA-8082-425495FDBF71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC697898-EF9D-49EA-8082-425495FDBF71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6629A47-D4D6-45B1-A304-5A4846E726BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6629A47-D4D6-45B1-A304-5A4846E726BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6629A47-D4D6-45B1-A304-5A4846E726BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6629A47-D4D6-45B1-A304-5A4846E726BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
