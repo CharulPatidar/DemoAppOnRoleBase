@@ -189,20 +189,20 @@ namespace DemoApp.ServicesImplement
                 string encryptedPassword = EncrypteDecrypte.Encrypt(userDto.UserPassword);
                 //hashedpassword
 
-                var userSalt = await _context.Users
-                    .Where(u => u.UserEmail == userDto.UserEmail)
-                    .Select(u => u.UserSalt)
-                    .FirstOrDefaultAsync();
+                //var userSalt = await _context.Users
+                //    .Where(u => u.UserEmail == userDto.UserEmail)
+                //    .Select(u => u.UserSalt)
+                //    .FirstOrDefaultAsync();
 
-                byte[] saltBytes = Convert.FromBase64String(userSalt); // Convert userSalt to byte array
+                //byte[] saltBytes = Convert.FromBase64String(userSalt); // Convert userSalt to byte array
 
 
-                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                   password: encryptedPassword,
-                   salt: saltBytes,
-                   prf: KeyDerivationPrf.HMACSHA256,
-                   iterationCount: 100000,
-                   numBytesRequested: 256 / 8));
+                //string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                //   password: encryptedPassword,
+                //   salt: saltBytes,
+                //   prf: KeyDerivationPrf.HMACSHA256,
+                //   iterationCount: 100000,
+                //   numBytesRequested: 256 / 8));
 
                // var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userDto.UserEmail && u.UserHashedPassword == hashed);
 
