@@ -1,7 +1,6 @@
 ﻿var myApp = angular.module('myApp');
 
 myApp.controller('LoginController', function ($scope, $http, $state, $window, BASE_URL, UserService, ngNotify ) {
-   
 
     
     $scope.user = {
@@ -54,7 +53,7 @@ myApp.controller('LoginController', function ($scope, $http, $state, $window, BA
             })
             .then(function (response) {
                
-                console.log("Login successful:", response.data);
+                console.log("Login successful:", response.data.token);
                
                 localStorage.setItem('token', response.data.token);
 
@@ -63,7 +62,6 @@ myApp.controller('LoginController', function ($scope, $http, $state, $window, BA
 
                 setUserData();
 
-               
                 
                 $state.go('home');
             })

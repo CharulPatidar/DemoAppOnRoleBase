@@ -47,36 +47,6 @@ public class JwtTokenGenerator
 
 
 
-    //public static string GenerateJwtToken(string username, string userrole,string userid, string secretKey)
-    //{
-    //    var tokenHandler = new JwtSecurityTokenHandler(); // creating handler intance
-
-
-    //    var key = Encoding.UTF8.GetBytes(secretKey); // Replace with your secret key
-
-    //    var tokenDescriptor = new SecurityTokenDescriptor
-    //    {
-    //        Subject = new ClaimsIdentity(new Claim[]
-    //        {
-    //            new Claim(ClaimTypes.Name, username), // Add claims as needed
-    //            new Claim(ClaimTypes.Role, userrole),
-    //            new Claim(ClaimTypes.NameIdentifier, userid)
-
-
-    //          //   Add other claims...
-    //        }),
-
-    //        Expires = DateTime.UtcNow.AddHours(1), // Set token expiration time
-    //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-    //    };
-
-    //    var token = tokenHandler.CreateToken(tokenDescriptor);
-
-    //    var tokenString = tokenHandler.WriteToken(token);
-
-    //    return tokenString;
-    //}
-
     public static bool VerifyJwtToken(string token, string secretKey, HttpContext context)
     {
         var key = Encoding.UTF8.GetBytes(secretKey); // Replace with your secret key
@@ -91,7 +61,7 @@ public class JwtTokenGenerator
                                         IssuerSigningKey = new SymmetricSecurityKey(key),
                                         ValidateIssuer = false, // Set to true if you have an issuer to validate
                                         ValidateAudience = false, // Set to true if you have an audience to validate
-                                        ClockSkew = TimeSpan.FromMinutes(5), // Set the clock skew to zero for better accuracy
+                                        ClockSkew = TimeSpan.FromMinutes(5), // Allowing 5 minutes tolerance
                                         ValidateLifetime = true,
                                     };
 

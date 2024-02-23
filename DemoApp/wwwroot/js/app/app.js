@@ -2,9 +2,7 @@
 
 var myApp = angular.module('myApp', ['ui.router', 'ui.bootstrap', 'ngNotify' ]);
 
-
-
-
+myApp.constant('BASE_URL', 'https://localhost:7128/api/'); // Define the base URL here
 
 // Define AngularJS controller
 myApp.controller('myController', function ($scope ,$state) {
@@ -18,16 +16,38 @@ myApp.controller('myController', function ($scope ,$state) {
 });
 
 
+myApp.run(function ($rootScope, $http, BASE_URL, UserService, ngNotify) {
+    // Define the function under $rootScope
+    $rootScope.setUserData = function () {
 
-myApp.constant('BASE_URL', 'https://localhost:7128/api/'); // Define the base URL here
 
 
+        $http.get(BASE_URL + "User/GetUserData")
+            .then(function (response) {
+                console.log("GetUserData successful:", response.data);
+                var userData = {
+                    userName: response.data.userName,
+                    userId: response.data.userId,
+                    roles: response.data.roles,
+                    userEmail: response.data.userEmail
+                };
+                ngNotify.set('You have successfully logged in!  ' + userData.userName, {
+                    type: 'success'
+                });
+                UserService.setUserData(userData);
+            })
+            .catch(function (error) {
+                console.error("Login failed:", error);
+            });
+    };
+});
 
 
 
 myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
     var authInterceptor = {};
     authInterceptor.request = function (config) {
+
         var token = localStorage.getItem('token');
 
         
@@ -37,7 +57,7 @@ myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
 
         if (token) {
             config.headers.Authorization = 'Bearer ' + token;
-            $rootScope.setUserData();
+       //     $rootScope.setUserData();
         }
         else
         {
@@ -56,23 +76,25 @@ myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
     return authInterceptor;
 });
 
-myApp.factory('AuthService', function ($rootScope, AuthInterceptor) {
+myApp.factory('AuthService', function ($rootScope, AuthInterceptor, UserService) {
 
     var authService = {};
 
     authService.logout = function () {
-        // Remove token from localStorage
+
+
         localStorage.removeItem('token');
 
-        // Call logout function in AuthInterceptor
+        var userData = {
+            userName: '',
+            userId: '',
+            roles: [],
+            userEmail: ''
+        };
+
+        UserService.setUserData(userData);
+
         AuthInterceptor.logout();
-
-        // Broadcast logout event
-        $rootScope.$broadcast('logoutEvent');
-
-
-        
-
        
     };
 
@@ -81,7 +103,7 @@ myApp.factory('AuthService', function ($rootScope, AuthInterceptor) {
 
 
 myApp.service('UserService', function ($rootScope) {
-     // Initialize an empty object to store user data
+   
 
     var userData = {
         userName:'',
@@ -92,12 +114,11 @@ myApp.service('UserService', function ($rootScope) {
 
     return {
         setUserData: function (data) {
-            userData = data; // Set user data
-            // Broadcast an event when user data changes
+            userData = data; 
             $rootScope.$broadcast('userDataChanged', userData);
         },
         getUserData: function () {
-            return userData; // Get user data
+            return userData; 
         }
     };
 });
@@ -120,28 +141,5 @@ myApp.factory('signalRService', function () {
                 console.error("SignalR connection is not initialized.");
             }
         }
-    };
-});
-
-myApp.run(function ($rootScope, $http, BASE_URL, UserService, ngNotify) {
-    // Define the function under $rootScope
-    $rootScope.setUserData = function () {
-        $http.get(BASE_URL + "User/GetUserData")
-            .then(function (response) {
-                console.log("GetUserData successful:", response.data);
-                var userData = {
-                    userName: response.data.userName,
-                    userId: response.data.userId,
-                    roles: response.data.roles,
-                    userEmail: response.data.userEmail
-                };
-                ngNotify.set('You have successfully logged in!  ' + userData.userName, {
-                    type: 'success'
-                });
-                UserService.setUserData(userData);
-            })
-            .catch(function (error) {
-                console.error("Login failed:", error);
-            });
     };
 });

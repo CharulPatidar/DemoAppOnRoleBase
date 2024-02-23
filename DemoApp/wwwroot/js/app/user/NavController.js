@@ -25,10 +25,7 @@ myApp.controller('NavController', function ($scope, $http, $state, AuthService, 
     $scope.logout = function () {
         
 
-        ngNotify.set('logged OUT! ', {
-            type: 'success'
-        });
-
+      
 
         var userData = {
             userName: '',
@@ -43,6 +40,10 @@ myApp.controller('NavController', function ($scope, $http, $state, AuthService, 
 
 
         AuthService.logout();
+
+        ngNotify.set('logged OUT! ', {
+            type: 'success'
+        });
 
         // Redirect to the login page or any other desired page
        

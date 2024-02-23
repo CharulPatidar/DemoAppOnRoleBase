@@ -177,7 +177,6 @@ namespace DemoApp.Controllers
 
         [HttpGet]
         [Route("GetUserData")]
-        [Authorize(Roles = "Admin")]
 
         public async Task<IActionResult> GetUserData()
         {

@@ -9,7 +9,7 @@ namespace DemoApp.DependencyInjection
         public static void AddJwtService(this IServiceCollection services,string secretKey)
         {
 
-           // var key = Environment.GetEnvironmentVariable("SecretKey");
+           //var key = Environment.GetEnvironmentVariable("SecretKey");
             var key = secretKey;
             if (key == null) { return; }
 
@@ -27,6 +27,7 @@ namespace DemoApp.DependencyInjection
                         ValidateAudience = false,
                         ValidateLifetime = false,
                         ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
                     };
                 });
