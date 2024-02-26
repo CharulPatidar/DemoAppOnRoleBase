@@ -57,7 +57,7 @@ myApp.factory('AuthInterceptor', function ($rootScope, $state, UserService) {
 
         if (token) {
             config.headers.Authorization = 'Bearer ' + token;
-       //     $rootScope.setUserData();
+            //$rootScope.setUserData();
         }
         else
         {

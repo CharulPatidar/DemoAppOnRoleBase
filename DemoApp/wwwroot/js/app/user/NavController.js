@@ -24,7 +24,9 @@ myApp.controller('NavController', function ($scope, $http, $state, AuthService, 
 
     $scope.logout = function () {
         
-
+        $scope.isAdmin = false;
+        $scope.isLogin = false;
+        $scope.userName = false;
       
 
         var userData = {
