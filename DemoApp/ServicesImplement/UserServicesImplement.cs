@@ -229,6 +229,8 @@ namespace DemoApp.ServicesImplement
 
                 var token = JwtTokenGenerator.createJwtToken(existingUser, userRoles, key);
 
+                Console.WriteLine("server side - >  ", token);
+
                 return token;
             }
             catch (Exception ex)

@@ -58,7 +58,7 @@ namespace DemoApp.Models
                 entity.ToTable("roles");
                 entity.HasKey(e => e.Id).HasName("role_pkey");
                 entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.RoleName).HasColumnName("user_name");
+                entity.Property(e => e.RoleName).HasColumnName("role_name");
                 entity.HasIndex(e => e.RoleName, "uq_roles_name").IsUnique();
 
 
